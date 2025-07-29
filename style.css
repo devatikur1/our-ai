@@ -1,0 +1,585 @@
+/* --------------------------------google-font-style--------------------------------- */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+/* --------------------------------genaral-style--------------------------------- */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+}
+
+:root {
+  --color-primary: #5C56E1;
+  --color-primary-dark: #5b21b6;
+  --color-accent: #8B5CF6;
+  --color-card: #FFFFFF;
+  --color-input: #F1F1FF;
+  --color-text: #09090E;
+  --color-placeholder: #5C5A87;
+  --color-border: #D4D4ED;
+  --color-gradient: linear-gradient(135deg, #5C56E1, #8B5CF6);
+}
+
+body.dark_theme {
+  --color-card: #1E293B;
+  --color-input: #141B2D;
+  --color-text: #F3F4F6;
+  --color-placeholder: #A3B6DC;
+  --color-border: #334155;
+  background: var(--color-card);
+  background-image: radial-gradient(circle at 15% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 35%), radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.15) 0%, transparent 35%), radial-gradient(circle at 50% 80%, rgba(99, 102, 241, 0.1) 0%, transparent 40%);
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    overflow-x: hidden;
+    /* background: linear-gradient(#e9e9ff, #c8c7ff); */
+}
+
+.container {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.hide {
+  display: none !important;
+}
+
+/* --------------------------------header-style--------------------------------- */
+
+.container .header {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 200px;
+  gap: 20px;
+}
+
+.header .logo {
+  max-width: 50px;
+  transform: scale(1.13);
+}
+
+.header .subtitle {
+  font-size: 1.2rem;
+}
+
+/* --------------------------------chatMassengs-style--------------------------------- */
+
+.container .chatMassengs {
+  position: absolute;
+  width: 100%;
+  height: calc(100vh - 24.5vh);
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  gap: 20px;
+  width: 90vw;
+  max-width: 900px;
+  padding-top: 100px;
+  padding-bottom: 20px;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.container .chatMassengs::-webkit-scrollbar {
+  display: none;
+}
+
+.chatMassengs :where(.userChat, .aiChat) {
+  width: 100%;
+  font-size: 0.6rem;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+.chatMassengs .userChat {
+  text-align: left;
+  align-items: end;
+  margin-bottom: 20px;
+}
+
+.chatMassengs .userChat span {
+  padding: 10px 20px;
+  font-weight: 600;
+}
+.chatMassengs .userChat p {
+  /* width: 50vw; */
+  max-width: 400px;
+  min-width: 20px;
+  overflow: hidden;
+  font-size: 1rem;
+  background: var(--color-input);
+  backdrop-filter: blur(50px);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 12px 20px;
+}
+
+.chatMassengs .aiChat {
+  text-align: right;
+  align-items: start;
+  margin-bottom: 50px;
+}
+.chatMassengs .aiChat span {
+  padding: 10px 20px;
+  font-weight: 600;
+}
+
+.aiChat .gallery_grid  {
+  display: grid;
+  gap: 15px;
+  grid-template-columns: 1fr 1fr;
+}
+
+.gallery_grid .img_card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 1;
+  border-radius: 16px;
+  background: var(--color-input);
+  border: 1px solid var(--color-border);
+  max-width: 250px;
+  width: 250px;
+  transition: all 0.3s ease;
+}
+
+.img_card .result_img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.img_card .img_overlay {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  padding: 20px;
+  display: flex;
+  opacity: 0;
+  pointer-events: none;
+  justify-content: flex-end;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+  transition: all 0.3s ease;
+}
+
+.img_card:hover .img_overlay {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.img_card .img_overlay .img_download_btn {
+  height: 35px;
+  width: 35px;
+  color: #FFFFFF;
+  backdrop-filter: 5px;
+  outline: none;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.img_card .img_overlay .img_download_btn:hover {
+  transform: scale(1.05);
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.img_card:is(.loading, .error) :is(.result_img, .img_overlay) {
+  display: none;
+}
+
+.img_card.loading .status_container #errorIcon,
+.img_card.error .status_container .status_text,
+.img_card.error .status_container .spinner {
+  display: none;
+}
+
+.img_card.error .status_container #errorIcon,
+.img_card.loading .status_container .status_text,
+.img_card.loading .status_container .spinner {
+  display: flex;
+}
+
+.img_card .status_container {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.img_card:where(.loading, .error) .status_container {
+  display: flex;
+}
+
+.img_card.loading .status_container .spinner {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  border: 3px solid var(--color-border);
+  border-top-color: var(--color-primary);
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  50%{
+      transform: rotate(100deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.img_card.loading .status_container .status_text {
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-align: center;
+  color: var(--color-placeholder);
+}
+
+
+.img_card.error #errorIcon {
+  font-size: 1.5rem;
+  color: #e70808;
+}
+
+/* --------------------------------background_Gradient-style--------------------------------- */
+
+.container .background_Gradient img{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  z-index: -1;
+}
+
+/* =================================main_content================================= */
+
+.container .main_content {
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+  height: 24.5vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* --------------------------------prompt container-style--------------------------------- */
+
+.main_content .prompt_form {
+  width: 90vw;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #ffffff8a;
+  backdrop-filter: blur(50px);
+  border: 1px solid var(--color-border);
+  border-radius: 15px;
+  padding: 20px 25px;
+}
+
+.prompt_form .prompt_container {
+  width: 100%;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.prompt_container .prompt_input {
+  width: 100%;
+  resize: vertical;
+  line-height: 1.6;
+  font-size: 1rem;
+  min-height: 100px;
+  max-height: 200px;
+  padding: 12px 20px;
+  border-radius: 15px;
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+}
+
+.prompt_container .prompt_input::placeholder {
+  color: var(--color-placeholder);
+}
+
+.prompt_container .prompt_input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 4px rgba(139, 92, 246, 0.15);
+}
+
+
+.prompt_container .prompt_btn {
+  position: absolute;
+  right: 15px;
+  bottom: 15px;
+  outline: none;
+  border: none;
+  font-size: 0.75rem;
+  width: 35px;
+  height: 35px;
+  color: #FFFFFF;
+  border-radius: 50%;
+  opacity: 0.8;
+  background: var(--color-gradient);
+  transition: all 0.3s ease;
+}
+
+.prompt_container .prompt_btn:hover {
+  transform: translateY(-2px);
+  opacity: 1;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+
+/* --------------------------------prompt actions/Buttons-style--------------------------------- */
+
+.container .prompt_actions {
+  width: 100%;
+  display: grid;
+  gap: 15px;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-content: space-between;
+}
+
+.prompt_actions .select_wrapper {
+  position: relative;
+}
+
+.prompt_actions .select_wrapper::after {
+  content: "\f078";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  font-size: 0.9rem;
+  padding-left: 7px;
+  pointer-events: none;
+  background: var(--color-input);
+  color: var(--color-placeholder);
+  transform: translateY(-50%);
+}
+.prompt_actions :where(.custom_select, .generate_btn) {
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 12px 20px;
+  border-radius: 10px;
+  background: var(--color-input);
+  border: 1px solid var(--color-border);
+  transition: all 0.3s ease;
+}
+
+.prompt_actions .custom_select {
+  width: 100%;
+  outline: none;
+  height: 100%;
+  appearance: none;
+  color: var(--color-text);
+}
+
+.prompt_actions .custom_select:is(:focus, :hover) {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+.prompt_actions .generate_btn {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  gap: 12px;
+  margin-left: auto;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+  color: #FFFFFF;
+  background: var(--color-gradient);
+}
+
+.prompt_actions .generate_btn.disabled {
+  opacity: 0.8 !important;
+  pointer-events: none !important;
+}
+
+/* ================================= Responsive latout ================================= */
+
+@media screen and (max-width: 768px) {
+
+  /* --------------------------------header-style--------------------------------- */
+
+    .container .header {
+      padding-top: 150px;
+      gap: 20px;
+    }
+    
+    .header .logo {
+      max-width: 40px;
+      transform: scale(1.15);
+    }
+    
+    .header .subtitle {
+      font-size: 1.1rem;
+    }
+
+
+    /* --------------------------------chatMassengs-style--------------------------------- */
+    
+    .chatMassengs .userChat {
+      padding-left: 10px;
+    }
+
+    .chatMassengs .userChat p {
+      max-width: 400px;
+      font-size: 0.91rem;
+      font-weight: 500;
+    }
+    
+    .aiChat .gallery_grid  {
+      display: grid;
+      gap: 15px;
+      grid-template-columns: 1fr 1fr;
+    }
+    
+    .gallery_grid .img_card {
+      max-width: 200px;
+      width: 200px;
+    }
+    
+    .img_card .img_overlay .img_download_btn {
+      height: 30px;
+      width: 30px;
+    }
+    
+    .img_card .img_overlay .img_download_btn i {
+      font-size: 0.7rem;
+    }
+    
+    .img_card .status_container {
+      gap: 10px;
+    }
+    
+    /* --------------------------------prompt container-style--------------------------------- */
+    
+    .prompt_container .prompt_input {
+      font-size: 0.9rem;
+      min-height: 100px;
+      max-height: 100px;
+    }
+    
+    .prompt_container .prompt_btn {
+      font-size: 0.7rem;
+      width: 35px;
+      height: 35px;
+      opacity: 1;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+    
+    .prompt_container .prompt_btn:hover {
+      transform: translateY(0px);
+    }
+    
+    
+    /* --------------------------------prompt actions/Buttons-style--------------------------------- */
+    
+    .container .prompt_actions {
+      width: 100%;
+      display: grid;
+      gap: 15px;
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+    
+    
+    .prompt_actions .select_wrapper::after {
+      font-size: 0.8rem;
+    }
+
+    .prompt_actions :where(.custom_select, .generate_btn) {
+      font-size: 0.9rem;
+      padding: 10px 18px;
+    }
+    
+    .prompt_actions .generate_btn {
+      font-weight: 500;
+    }
+    
+  }
+
+@media screen and (max-width: 768px) {
+
+  /* --------------------------------header-style--------------------------------- */
+
+    .container .header {
+      padding-top: 150px;
+      gap: 20px;
+    }
+    
+    .header .logo {
+      max-width: 39px;
+      transform: scale(1.15);
+    }
+    
+    .header .subtitle {
+      font-size: 1.09rem;
+    }
+
+
+    /* --------------------------------chatMassengs-style--------------------------------- */
+    
+    .chatMassengs .userChat p {
+      font-size: 0.85rem;
+    }
+    
+    .gallery_grid .img_card {
+      max-width: 180px;
+      width: 180px;
+    }
+
+    /* --------------------------------prompt container-style--------------------------------- */
+    
+    .prompt_container .prompt_btn {
+      font-size: 0.7rem;
+    }
+
+    /* --------------------------------prompt actions/Buttons-style--------------------------------- */
+
+    .prompt_actions :where(.custom_select, .generate_btn) {
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+    
+  }

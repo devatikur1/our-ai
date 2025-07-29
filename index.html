@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OUR-AI</title>
+    <!-- css-stylesheet -->
+    <link rel="stylesheet" href="style.css">
+    <!-- favicon -->
+    <link rel="shortcut icon" href="Logo.png" type="image/x-icon">
+    <!-- Linking Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+</head>
+<body>
+    <div class="container">
+        <!-- header -->
+         <header class="header">
+            <img src="Logo.png" alt="logo" class="logo">
+            <p class="subtitle">Our AI crate any image</p>
+         </header>
+
+         <article class="chatMassengs hide">
+            <!-- add with js -->
+         </article>
+
+        <!-- background_Gradient -->
+        <div class="background_Gradient">
+           <img src="background-gradient.png">
+        </div>
+
+        <!-- main_content -->
+        <main class="main_content">
+           <form action="#" class="prompt_form">
+                <!-- prompt container -->
+                <div class="prompt_container">
+                    <textarea class="prompt_input" placeholder=" Describe your imagination in detail...." required autofocus></textarea>
+                    <button type="button" class="prompt_btn">
+                        <i class="fa-solid fa-dice"></i>
+                    </button>
+                </div>
+                 <!-- prompt actions/Buttons -->
+                <div class="prompt_actions">
+                    <div class="select_wrapper">
+                        <select class="custom_select" id="model_select" required>
+                            <option value="" selected disabled>Select Model</option>
+                            <option value="black-forest-labs/FLUX.1-dev" disabled>FLUX.1-dev</option>
+                            <option value="DeepAi" >Deep Ai</option>
+                            <option value="Lexica_Art" >Lexica Art</option>
+                            <option value="Random_Cat_Image">Random Cat Image</option>
+                            <option value="Random_Dog_Image">Random Dog Image</option>
+                            <option value="runwayml/stable-diffusion-v1-5" disabled>Stable Diffusion v1.5</option>
+                            <option value="IDEA-CCNL/Taiyi-Stable-Diffusion-1B-Chinese-EN-v0.1" disabled>Taiyi Stable Diffusion 1B Chinese</option>
+                            <option value="prompthero/openjourney" disabled>Openjourney</option>
+                        </select>
+                    </div>
+                    <div class="select_wrapper">
+                        <select class="custom_select" id="count_select" required>
+                            <option value="" selected disabled>Image Count</option>
+                            <option value="1">1 Image</option>
+                            <option value="2">2 image</option>
+                            <option value="3">3 image</option>
+                            <option value="4">4 image</option>
+                        </select>
+                    </div>
+                    <!-- <div class="select_wrapper">
+                        <select class="custom_select" id="ratio_select" required>
+                            <option value="" selected disabled>Aspect Ratio</option>
+                            <option value="1/1">Square (1:1)</option>
+                            <option value="16/9">Landscape (16:9)</option>
+                            <option value="9/16">Portrait (9:16)</option>
+                        </select>
+                    </div> -->
+
+                    <button type="submit" class="generate_btn">
+                        <i class="fa-solid fa-wand-sparkles"></i>
+                        Generate
+                    </button>
+                </div>
+           </form>
+        </main>
+    </div>
+    <!-- js-script -->
+    <script src="script.js"></script>
+</body>
+</html>
