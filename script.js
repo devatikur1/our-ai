@@ -176,7 +176,8 @@ const fetchRandomFluxImages = async (imageCount, prompt) => {
     const options = {
       method: 'POST',
       headers: {
-        'x-rapidapi-key': 'c5642c1451msh4c0d46f26ef5789p14fd90jsn6b2f6fca0cc8', 
+        // 'x-rapidapi-key': 'c5642c1451msh4c0d46f26ef5789p14fd90jsn6b2f6fca0cc8', 
+        'x-rapidapi-key': 'be5bb09bc7mshe969a797fb59043p17e973jsn430f672eb2e3', 
         'x-rapidapi-host': 'ai-text-to-image-generator-flux-free-api.p.rapidapi.com',
         'Content-Type': 'application/json'
       },
