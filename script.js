@@ -64,7 +64,7 @@ const addAiMessage = (count) => {
                 <i class="fa-solid fa-triangle-exclamation" id="errorIcon"></i>
                 <p class="status_text">Generating...</p>
             </div>
-            <img src="test.png" class="result_img">
+            <img src="" class="result_img">
             <div class="img_overlay">
                 <button class="img_download_btn">
                     <i class="fa-solid fa-download"></i>
@@ -112,7 +112,7 @@ const addAiMessage = (count) => {
                 const file = await downloadCat.blob();
                 const  a = document.createElement("a");
                 a.href = URL.createObjectURL(file);
-                a.download = `cat${new Date().getSeconds()}.jpg`
+                a.download = `our-ai${toFixed(new Date().getHours())}.jpg`
                 a.click();
               } catch (error) {
                 console.log(error in download)
@@ -138,7 +138,8 @@ const fetchRandomCatImages = (count) => {
   let images = [];
   for (let i = 0; i < count; i++) {
       try {
-        images.push(`https://cataas.com/cat?uninque=${Math.random()}`);
+        let image = `https://cataas.com/cat?uninque=${Math.floor(Math.random() * 10000)}`;
+        images.push(image);
       } catch (error) {
         images.push("error");
       }
@@ -263,44 +264,59 @@ const handleFormSubmit = async (e) => {
   // promptInput.value = "";
   
   if (selectedModel === "Random_Cat_Image") {
-    // ADD AI MESSGE AND LODING
-    addAiMessage(imageCount)
-    // WAIT FOR IMAGE
+    addAiMessage(imageCount); // AI Loading
     setTimeout(async () => {
-      let images = await fetchRandomCatImages(imageCount);
+      const images = await fetchRandomCatImages(imageCount);
       replaceImages(images);
+      chatMassengs.scrollTo({
+        top: chatMassengs.scrollHeight,
+        behavior: "smooth"
+      });
       generatebtn.classList.remove("disabled");
     }, 2000);
+  
   } else if (selectedModel === "Random_Dog_Image") {
-    // ADD AI MESSGE AND LODING
-    addAiMessage(imageCount)
-    // WAIT FOR IMAGE
+    addAiMessage(imageCount); // AI Loading
     setTimeout(async () => {
-      let images = await fetchRandomDogImages(imageCount);
+      const images = await fetchRandomDogImages(imageCount);
       replaceImages(images);
+      chatMassengs.scrollTo({
+        top: chatMassengs.scrollHeight,
+        behavior: "smooth"
+      });
       generatebtn.classList.remove("disabled");
     }, 2000);
+  
   } else if (selectedModel === "Lexica_Art") {
     promptInput.value = "";
-    // ADD AI MESSGE AND LODING
-    addAiMessage(imageCount, promptText);
-    // WAIT FOR IMAGE
+    addAiMessage(imageCount, promptText); // AI Loading with prompt
     setTimeout(async () => {
-      let images = await fetchRandomLexicaArtImages(imageCount, promptText);
+      const images = await fetchRandomLexicaArtImages(imageCount, promptText);
       replaceImages(images);
+      chatMassengs.scrollTo({
+        top: chatMassengs.scrollHeight,
+        behavior: "smooth"
+      });
       generatebtn.classList.remove("disabled");
     }, 2000);
+  
   } else if (selectedModel === "DeepAi") {
-    // ADD AI MESSGE AND LODING
     promptInput.value = "";
-    addAiMessage(imageCount, promptText);
-    // WAIT FOR IMAGE
+    addAiMessage(imageCount, promptText); // AI Loading with prompt
     setTimeout(async () => {
-      let images = await fetchRandomDeepAiImages(imageCount, promptText);
+      const images = await fetchRandomDeepAiImages(imageCount, promptText);
       replaceImages(images);
+      chatMassengs.scrollTo({
+        top: chatMassengs.scrollHeight,
+        behavior: "smooth"
+      });
       generatebtn.classList.remove("disabled");
     }, 2000);
   }
+  
+
+  chatMassengs.scrollTop = chatMassengs.scrollHeight;
+
 };
 
 promptForm.addEventListener("submit", handleFormSubmit);
