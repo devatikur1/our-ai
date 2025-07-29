@@ -447,6 +447,16 @@ body {
 
 }
 
+.container .footer a{
+  font-size: 0.8rem;
+  margin: 8px 0px;
+  font-weight: 500;
+  color: var(--color-accent);
+  text-decoration: none;
+
+
+}
+
 /* ================================= Responsive latout ================================= */
 
 @media screen and (max-width: 768px) {
