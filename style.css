@@ -294,7 +294,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 35px;
 }
 
 /* --------------------------------prompt container-style--------------------------------- */
@@ -435,6 +435,18 @@ body {
   pointer-events: none !important;
 }
 
+/* --------------------------------footer Copyriht--------------------------------- */
+
+.container .footer {
+  position: absolute;
+  bottom: 0;
+  font-size: 0.8rem;
+  margin: 8px 0px;
+  font-weight: 500;
+  color: var(--color-placeholder);
+
+}
+
 /* ================================= Responsive latout ================================= */
 
 @media screen and (max-width: 768px) {
@@ -572,13 +584,72 @@ body {
     /* --------------------------------prompt container-style--------------------------------- */
     
     .prompt_container .prompt_btn {
-      font-size: 0.7rem;
+      font-size: 0.8rem;
     }
 
     /* --------------------------------prompt actions/Buttons-style--------------------------------- */
 
     .prompt_actions :where(.custom_select, .generate_btn) {
       font-size: 0.85rem;
+      font-weight: 500;
+    }
+    
+  }
+
+@media screen and (max-width: 457px) {
+
+  /* --------------------------------header-style--------------------------------- */
+
+    .container .header {
+      padding-top: 150px;
+      gap: 20px;
+    }
+    
+    .header .logo {
+      max-width: 39px;
+      transform: scale(1.15);
+    }
+    
+    .header .subtitle {
+      font-size: 1.09rem;
+    }
+
+
+    /* --------------------------------chatMassengs-style--------------------------------- */
+    
+    .chatMassengs .userChat p {
+      font-size: 0.85rem;
+    }
+
+    
+    .aiChat .gallery_grid  {
+      display: grid;
+      gap: 15px;
+      grid-template-columns: 1fr 1fr;
+    }
+    
+    .gallery_grid .img_card {
+      max-width: 150px;
+      width: 150px;
+    }
+
+    /* --------------------------------prompt container-style--------------------------------- */
+    
+    .main_content .prompt_form {
+      width: 100vw;
+      max-width: 100vw;
+      border-radius: 0px;
+      padding: 15px 10px;
+    }
+
+    .prompt_container .prompt_btn {
+      font-size: 0.8rem;
+    }
+
+    /* --------------------------------prompt actions/Buttons-style--------------------------------- */
+
+    .prompt_actions :where(.custom_select, .generate_btn) {
+      font-size: 0.8rem;
       font-weight: 500;
     }
     
