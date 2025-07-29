@@ -165,10 +165,11 @@ const fetchRandomDogImages = async (count) => {
 }
 
 // Lexica_Art fetch
+
 const fetchRandomLexicaArtImages = async (count, userPrompt) => {
   let images = [];
   try {
-    const url = `https://lexica.art/api/v1/search?q=${encodeURIComponent(userPrompt)}`
+    const url = `https://lexica.art/api/v1/search?q=encodeURIComponent(userPrompt)`
     const res = await fetch(url);
     const dataImage = await res.json();
 
@@ -191,43 +192,88 @@ const fetchRandomLexicaArtImages = async (count, userPrompt) => {
 }
 
 // DeepAi image
-const fetchRandomDeepAiImages = async (count, userPrompt) => {
+// const fetchRandomDeepAiImages = async (count, userPrompt) => {
+//   let images = [];
+//   for (let i = 0; i < count; i++) {
+//     try {
+//       const deepAiUrl = "https://api.deepai.org/api/text2img";
+//       const res = await fetch(deepAiUrl, {
+//         method: "POST",
+//         headers: {
+//           "Api-Key": "4d834e61-1766-403a-9bb7-665bd2084b12",
+//           "Content-Type": "application/x-www-form-urlencoded"
+//         },
+//         body: `text=${encodeURIComponent(userPrompt)}`
+//       });
+
+//       const data = await res.json();
+//       console.log(data);
+
+//       // Push just the image URL
+//       if (data.output_url) {
+//         images.push(data.output_url);
+//       } else {
+//         images.push("error");
+//       }
+
+//     } catch (error) {
+//       console.error("Error:", error);
+//       images.push("error");
+//     }
+//   }
+
+//   return images;
+// };
+
+
+// flux ai image
+
+const fetchRandomFluxImages = async (imageCount, prompt) => {
   let images = [];
-  for (let i = 0; i < count; i++) {
+
+  for (let i = 0; i < imageCount; i++) {
+    const url = 'https://ai-text-to-image-generator-flux-free-api.p.rapidapi.com/aaaaaaaaaaaaaaaaaiimagegenerator/quick.php';
+
+    const options = {
+      method: 'POST',
+      headers: {
+        'x-rapidapi-key': 'c5642c1451msh4c0d46f26ef5789p14fd90jsn6b2f6fca0cc8', 
+        'x-rapidapi-host': 'ai-text-to-image-generator-flux-free-api.p.rapidapi.com',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        prompt: prompt,
+        style_id: 4,
+        size: '1-1'
+      })
+    };
+
     try {
-      const deepAiUrl = "https://api.deepai.org/api/text2img";
-      const res = await fetch(deepAiUrl, {
-        method: "POST",
-        headers: {
-          "Api-Key": "4d834e61-1766-403a-9bb7-665bd2084b12",
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
-        body: `text=${encodeURIComponent(userPrompt)}`
-      });
+      const response = await fetch(url, options);
+      const result = await response.json(); 
 
-      const data = await res.json();
-      console.log(data);
+      console.log(result);
 
-      // Push just the image URL
-      if (data.output_url) {
-        images.push(data.output_url);
+      // ✅ Extract image URLs from result.final_result
+      if (result.final_result && Array.isArray(result.final_result)) {
+        result.final_result.forEach(item => {
+          images.push(item.origin); // or item.thumb
+        });
       } else {
         images.push("error");
       }
 
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Flux fetch error:", error);
       images.push("error");
     }
   }
 
   return images;
-};
-
-
-
+}
 
 // ======================= cat and dog extra js code =======================
+
 
 modelSelect.addEventListener("change", () => {
   const selectedValue = modelSelect.value;
@@ -289,7 +335,7 @@ const handleFormSubmit = async (e) => {
   
   } else if (selectedModel === "Lexica_Art") {
     promptInput.value = "";
-    addAiMessage(imageCount, promptText); // AI Loading with prompt
+    addAiMessage(imageCount); // AI Loading with prompt
     setTimeout(async () => {
       const images = await fetchRandomLexicaArtImages(imageCount, promptText);
       replaceImages(images);
@@ -302,9 +348,21 @@ const handleFormSubmit = async (e) => {
   
   } else if (selectedModel === "DeepAi") {
     promptInput.value = "";
-    addAiMessage(imageCount, promptText); // AI Loading with prompt
+    addAiMessage(imageCount); // AI Loading with prompt
     setTimeout(async () => {
       const images = await fetchRandomDeepAiImages(imageCount, promptText);
+      replaceImages(images);
+      chatMassengs.scrollTo({
+        top: chatMassengs.scrollHeight,
+        behavior: "smooth"
+      });
+      generatebtn.classList.remove("disabled");
+    }, 2000);
+  } else if (selectedModel === "flux") {
+    promptInput.value = "";
+    addAiMessage(imageCount); // AI Loading with prompt
+    setTimeout(async () => {
+      const images = await fetchRandomFluxImages(imageCount, promptText);
       replaceImages(images);
       chatMassengs.scrollTo({
         top: chatMassengs.scrollHeight,
