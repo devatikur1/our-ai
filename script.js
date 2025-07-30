@@ -210,6 +210,22 @@ const fetchRandomFluxImages = async (imageCount, prompt) => {
   return images;
 }
 
+// picsum
+
+const fetchRandomPicsumImages = async (count) => {
+  let images = [];
+  for (let i = 0; i < count; i++) {
+    try {
+      let image = await `https://picsum.photos/512/512?random=${Math.random()}`;
+      images.push(image);
+    } catch(error) {
+      images.push("error");
+    }
+  }
+
+  return images;
+};
+
 
 // ======================= cat and dog extra js code =======================
 
@@ -223,6 +239,10 @@ modelSelect.addEventListener("change", () => {
     promptBtn.disabled = true;
   } else if (selectedValue === "Random_Dog_Image") {
     promptInput.value = "Random Dog Image";
+    promptInput.disabled = true;
+    promptBtn.disabled = true;
+  } else if (selectedValue === "picsum") {
+    promptInput.value = "picsum Random Image";
     promptInput.disabled = true;
     promptBtn.disabled = true;
   } else {
@@ -283,10 +303,22 @@ const handleFormSubmit = async (e) => {
       });
       generatebtn.classList.remove("disabled");
     }, 2000);
+  } else if (selectedModel === "picsum") {
+    addAiMessage(imageCount); // AI Loading with prompt
+    setTimeout(async () => {
+      const images = await fetchRandomPicsumImages(imageCount);
+      replaceImages(images);
+      chatMassengs.scrollTo({
+        top: chatMassengs.scrollHeight,
+        behavior: "smooth"
+      });
+      generatebtn.classList.remove("disabled");
+    }, 2000);
   }
   
   chatMassengs.scrollTop = chatMassengs.scrollHeight;
 
 };
+
 
 promptForm.addEventListener("submit", handleFormSubmit);
