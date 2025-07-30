@@ -242,7 +242,7 @@ modelSelect.addEventListener("change", () => {
     promptInput.disabled = true;
     promptBtn.disabled = true;
   } else if (selectedValue === "picsum") {
-    promptInput.value = "picsum Random Image";
+    promptInput.value = "Picsum Random Image";
     promptInput.disabled = true;
     promptBtn.disabled = true;
   } else {
