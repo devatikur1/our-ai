@@ -11,17 +11,18 @@
     <!-- Linking Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
 </head>
-<body>
+<body oncontextmenu="return false;">
     <div class="container">
         <!-- header -->
-         <header class="header">
+        <header class="header">
             <img src="Logo.png" alt="logo" class="logo">
             <p class="subtitle">Our AI crate any image</p>
-         </header>
+        </header>
 
-         <article class="chatMassengs hide">
+        <!-- chatMassengs -->
+        <article class="chatMassengs hide">
             <!-- add with js -->
-         </article>
+        </article>
 
         <!-- background_Gradient -->
         <div class="background_Gradient">
@@ -65,12 +66,17 @@
                         Generate
                     </button>
                 </div>
-           </form>
+            </form>
+            
         </main>
 
         <!-- footer Copyriht -->
-        <footer class="footer">© Copyriht by <a href="https://www.instagram.com/devatikur1/" target="_blank">@devatikur</a></footer>
+        <footer class="footer">
+                © Copyriht by <a href="https://github.com/devatikur1" target="_blank">@devatikur1</a>
+        </footer>   
     </div>
+    <!-- js-example-prompt-script -->
+    <script src="examplePrompts.js"></script>
     <!-- js-script -->
     <script src="script.js"></script>
 </body>

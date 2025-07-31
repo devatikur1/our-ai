@@ -9,26 +9,6 @@ const modelSelect = document.querySelector("#model_select");
 const countSelect = document.querySelector("#count_select");
 const generatebtn = document.querySelector(".generate_btn");
 
-// ======================= Example Prompts =======================
-
-const examplePrompts = [
-  "A magic forest with glowing plants and fairy homes among giant mushrooms",
-  "An old steampunk airship floating through golden clouds at sunset",
-  "A future Mars colony with glass domes and gardens against red mountains",
-  "A dragon sleeping on gold coins in a crystal cave",
-  "An underwater kingdom with merpeople and glowing coral buildings",
-  "A floating island with waterfalls pouring into clouds below",
-  "A witch's cottage in fall with magic herbs in the garden",
-  "A robot painting in a sunny studio with art supplies around it",
-  "A magical library with floating glowing books and spiral staircases",
-  "A Japanese shrine during cherry blossom season with lanterns and misty mountains",
-  "A cosmic beach with glowing sand and an aurora in the night sky",
-  "A medieval marketplace with colorful tents and street performers",
-  "A cyberpunk city with neon signs and flying cars at night",
-  "A peaceful bamboo forest with a hidden ancient temple",
-  "A giant turtle carrying a village on its back in the ocean",
-];
-
 // ======================= Random Prompt Fill =======================
 
 promptBtn.addEventListener("click", () => {
@@ -55,81 +35,90 @@ const addAiMessage = (count) => {
         <span>OUR AI</span>
         <section class="gallery_grid">
   `;
+
   for (let i = 0; i < count; i++) {
     galleryHtml += `
-        <div class="img_card loading">
-            <div class="status_container">
-                <div class="spinner"></div>
-                <i class="fa-solid fa-triangle-exclamation" id="errorIcon"></i>
-                <p class="status_text">Generating...</p>
+            <div class="img_card loading">
+                <div class="status_container">
+                    <div class="spinner"></div>
+                    <i class="fa-solid fa-triangle-exclamation" id="errorIcon"></i>
+                    <p class="status_text">Generating...</p>
+                </div>
+                <img src="" class="result_img">
+                <div class="img_overlay">
+                    <button class="img_download_btn">
+                        <i class="fa-solid fa-download"></i>
+                    </button>
+                </div>
             </div>
-            <img src="" class="result_img">
-            <div class="img_overlay">
-                <button class="img_download_btn">
-                    <i class="fa-solid fa-download"></i>
-                </button>
-            </div>
-         </div>
     `;
   }
 
     galleryHtml += `
         </section>
-        </div>
+      </div>
     `;
 
+    // add full ai chat and loading
     chatMassengs.innerHTML += galleryHtml;
   }
 
-  // add ai message with image and handle error
+  // Add ai message with image and handle error
   const replaceImages = (urls) => {
-    // add ai ai image
-    if (urls[0] !== "error") {
-        const imageCards = document.querySelectorAll(".img_card.loading");
-        imageCards.forEach((card, index) => {
-            const img = card.querySelector(".result_img");
-            img.src = urls[index];
-            card.classList.remove("loading");
-      
-            const overly = card.querySelector(".img_overlay");
-            overly.innerHTML = `
-              <button class="img_download_btn" data-url="${urls[index]}">
-                  <i class="fa-solid fa-download"></i>
-              </button>
-            `;
-            });
-      
-            // Download button functionality
-            document.querySelectorAll(".img_download_btn").forEach((btn) => {
-              btn.addEventListener("click", async () => {
-                const imageURL = btn.getAttribute("data-url");
-      
-                console.log(imageURL);
-            
-              try {
-                const downloadCat = await fetch(imageURL);
-                const file = await downloadCat.blob();
-                const  a = document.createElement("a");
-                a.href = URL.createObjectURL(file);
-                a.download = `our-ai${new Date().getHours()}.jpg`
-                a.click();
-              } catch (error) {
-                console.log(error in download)
-              }
-            });
-        });
-
-    } else {
-      // handle error
-      const imageCards = document.querySelectorAll(".img_card.loading");
-      imageCards.forEach((card, index) => {
+    const imageCards = document.querySelectorAll(".img_card.loading");
+  
+    imageCards.forEach((card, index) => {
+  
+      if (urls[index] === "error") {
         card.classList.remove("loading");
         card.classList.add("error");
+        return;
+      }
+  
+      // replace image with foreach loop and remove loading
+      const img = card.querySelector(".result_img");
+      img.src = urls[index];
+      card.classList.remove("loading");
+
+      // Add overlay with data-url
+      const overlay = card.querySelector(".img_overlay");
+      const imgUrl = urls[index];
+      const parts = imgUrl.split(".");
+      const imgFormat = parts[parts.length - 1].split("?")[0].toLowerCase();
+  
+      overlay.innerHTML = `
+        <button class="img_download_btn" data-url="${imgUrl}" data-format="${imgFormat}">
+          <i class="fa-solid fa-download"></i>
+        </button>
+      `;
+  
+      // add download img
+      const downloadBtn = card.querySelector(".img_download_btn");
+      downloadBtn.addEventListener("click", () => {
+        const imgURL = downloadBtn.getAttribute("data-url");
+        const imgFormat = downloadBtn.getAttribute("data-format");
+        downloadImage(imgUrl, imgFormat)
       });
-    }
+
+      const downloadImage = async (url, format) => {
+        try {
+          const downloadRes = await fetch(url);
+          const file = await downloadRes.blob();
+  
+          const a = document.createElement("a");
+          a.href = URL.createObjectURL(file);
+          a.download = `our-ai-${Date.now()}.${format}`; // 👈 correct filename
+          a.click();
+        } catch (error) {
+          console.error("Download error:", error);
+        }
+      }
+    });
   };
-
-
+  
+  
+  
+  
 // ======================= cat and dog ai image fetch =======================
 
 
@@ -139,10 +128,10 @@ const fetchRandomCatImages = (count) => {
   for (let i = 0; i < count; i++) {
       try {
         let image = `https://cataas.com/cat?uninque=${Math.floor(Math.random() * 10000)}`;
-              if (!image) {
-        image.push("error")
+        if (!image) {
+          image.push("error")
       } else {
-        images.push(image);
+          images.push(image);
       }
       } catch (error) {
         images.push("error");
@@ -202,7 +191,7 @@ const fetchRandomFluxImages = async (imageCount, prompt) => {
       const response = await fetch(url, options);
       const result = await response.json(); 
 
-      console.log(result);
+      // console.log(result);
 
       if (result.final_result && Array.isArray(result.final_result)) {
         result.final_result.forEach(item => {
@@ -220,8 +209,7 @@ const fetchRandomFluxImages = async (imageCount, prompt) => {
   return images;
 }
 
-// picsum
-
+// picsum  random image
 const fetchRandomPicsumImages = async (count) => {
   let images = [];
   for (let i = 0; i < count; i++) {
@@ -241,29 +229,33 @@ const fetchRandomPicsumImages = async (count) => {
 };
 
 
-const fetchAnonymousAiImage = async (count, prompt, currentAspect= "1:1") => {
-  let images = [];
+// AnonymousAiImage 
+const fetchAnonymousAiImage = async (count, prompt, aspect) => {
+
+  const images = [];
   for (let i = 0; i < count; i++) {
     try {
-      const seed = Date.now();
-      console.log(seed);
-      const imgURL = `https://api.a0.dev/assets/image?text=${encodeURIComponent(prompt)}&aspect=${currentAspect}&seed=${seed}.webp`;
-      console.log(imgURL);
-
-      const res = await fetch(imgURL);
-      if (!res) throw images.push("error");
-      const blobData = await res.blob();
-      const blob = URL.createObjectURL(blobData);
-      images.push(blob);
-      console.log(blob);
-      
+      let speed = Date.now();
+      const imgURL = `https://api.a0.dev/assets/image?text=${encodeURIComponent(prompt)}&aspect=${aspect}&seed=${speed}`;
+  
+      const res = await fetch(imgURL, {
+        method: "GET",
+        redirect: "follow"
+      });
+  
+      if (!res.ok) throw new Error("Image fetch failed");
+  
+      const finalImage = res.url;
+      images.push(finalImage);
     } catch (error) {
-      images.push("error")
+      images.push("error");
     }
-    
-  }
+  };
+
   return images;
+
 };
+
 
 
 
@@ -286,9 +278,11 @@ modelSelect.addEventListener("change", () => {
     promptInput.disabled = true;
     promptBtn.disabled = true;
   } else {
+    promptInput.value = "";
     promptInput.disabled = false;
     promptBtn.disabled = false;
   }
+  
 });
 
 // ======================= Main Form Handler =======================
@@ -305,10 +299,11 @@ const handleFormSubmit = async (e) => {
   
   if (!promptText || !selectedModel) return;
   
+  // call user massage funtion
   addUserMessage(promptText);
   
-  if (selectedModel === "Random_Cat_Image") {
-    addAiMessage(imageCount); // AI Loading
+  if (selectedModel === "Random_Cat_Image") { // cat  random image
+    addAiMessage(imageCount); // call user massage funtion with Loading
     setTimeout(async () => {
       const images = await fetchRandomCatImages(imageCount);
       replaceImages(images);
@@ -319,8 +314,8 @@ const handleFormSubmit = async (e) => {
       generatebtn.classList.remove("disabled");
     }, 2000);
   
-  } else if (selectedModel === "Random_Dog_Image") {
-    addAiMessage(imageCount); // AI Loading
+  } else if (selectedModel === "Random_Dog_Image") { // dog  random image
+    addAiMessage(imageCount); // call user massage funtion with Loading
     setTimeout(async () => {
       const images = await fetchRandomDogImages(imageCount);
       replaceImages(images);
@@ -331,9 +326,9 @@ const handleFormSubmit = async (e) => {
       generatebtn.classList.remove("disabled");
     }, 2000);
   
-  } else if (selectedModel === "flux") {
+  } else if (selectedModel === "flux") { // fllux with text to prompt image
     promptInput.value = "";
-    addAiMessage(imageCount); // AI Loading with prompt
+    addAiMessage(imageCount); // call user massage funtion with Loading
     setTimeout(async () => {
       const images = await fetchRandomFluxImages(imageCount, promptText);
       replaceImages(images);
@@ -343,8 +338,10 @@ const handleFormSubmit = async (e) => {
       });
       generatebtn.classList.remove("disabled");
     }, 2000);
-  } else if (selectedModel === "picsum") {
-    addAiMessage(imageCount); // AI Loading with prompt
+  } else if (selectedModel === "picsum") {   // picsum  random image
+    addAiMessage(imageCount); // call user massage funtion with Loading 
+
+
     setTimeout(async () => {
       const images = await fetchRandomPicsumImages(imageCount);
       replaceImages(images);
@@ -355,14 +352,14 @@ const handleFormSubmit = async (e) => {
       generatebtn.classList.remove("disabled");
     }, 2000);
   } else if (selectedModel === "AnonymousAiImage") {
+    promptInput.value = "";
     addAiMessage(imageCount);
+  
     setTimeout(async () => {
-      let images = [];
-      for (let i = 0; i < imageCount; i++) {
-        let image = await fetchAnonymousAiImage(imageCount, promptText);
-        images.push(image);
-      }
-      replaceImages(images);
+      const image = await fetchAnonymousAiImage(imageCount ,promptText, "1:1");
+      // console.log(image);
+
+      replaceImages(image);
       chatMassengs.scrollTo({
         top: chatMassengs.scrollHeight,
         behavior: "smooth"
@@ -372,6 +369,7 @@ const handleFormSubmit = async (e) => {
   }
 
 
+
   
   chatMassengs.scrollTop = chatMassengs.scrollHeight;
 
@@ -379,3 +377,40 @@ const handleFormSubmit = async (e) => {
 
 
 promptForm.addEventListener("submit", handleFormSubmit);
+
+
+// call handal from with key
+document.addEventListener('keydown', function(e) {
+  
+  if (e.key === "Control") {
+    if(e.key === "enter") {
+      handleFormSubmit();
+    }
+  }
+});
+
+// ================================= security set up =================================
+
+// Right Click Disable
+document.addEventListener('contextmenu', function(e) {
+  e.preventDefault();
+});
+
+// Keyboard Shortcuts Block
+document.addEventListener('keydown', function(e) {
+  // F12
+  if (e.key === "F12") {
+    e.preventDefault();
+  }
+  // Ctrl+Shift+I / J / C / U
+  if (e.ctrlKey && e.shiftKey && ["I", "J", "C"].includes(e.key)) {
+    e.preventDefault();
+  }
+  // Ctrl+U (View source)
+  if (e.ctrlKey && e.key === "u") {
+    e.preventDefault();
+  }
+});
+
+
+

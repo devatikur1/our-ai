@@ -23,23 +23,14 @@
   --color-gradient: linear-gradient(135deg, #5C56E1, #8B5CF6);
 }
 
-body.dark_theme {
-  --color-card: #1E293B;
-  --color-input: #141B2D;
-  --color-text: #F3F4F6;
-  --color-placeholder: #A3B6DC;
-  --color-border: #334155;
-  background: var(--color-card);
-  background-image: radial-gradient(circle at 15% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 35%), radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.15) 0%, transparent 35%), radial-gradient(circle at 50% 80%, rgba(99, 102, 241, 0.1) 0%, transparent 40%);
-}
-
 body {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+    width: 100%;
     min-height: 100vh;
-    overflow-x: hidden;
-    /* background: linear-gradient(#e9e9ff, #c8c7ff); */
+    overflow: hidden;
 }
 
 .container {
@@ -59,13 +50,15 @@ body {
 /* --------------------------------header-style--------------------------------- */
 
 .container .header {
-  position: absolute;
+  user-select: none;
+  -webkit-user-select: none;
+  position: sticky;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-top: 200px;
+  padding-top: 30vh;
   gap: 20px;
 }
 
@@ -82,11 +75,11 @@ body {
 
 .container .chatMassengs {
   position: absolute;
-  width: 100%;
   height: calc(100vh - 24.5vh);
   display: flex;
   flex-direction: column;
-  justify-content: start;
+  flex: 1; 
+  justify-content: space-between;
   align-items: start;
   gap: 20px;
   width: 90vw;
@@ -95,6 +88,7 @@ body {
   padding-bottom: 20px;
   overflow-y: auto;
   scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
   -ms-overflow-style: none;
 }
 
@@ -121,7 +115,6 @@ body {
   font-weight: 600;
 }
 .chatMassengs .userChat p {
-  /* width: 50vw; */
   max-width: 400px;
   min-width: 20px;
   overflow: hidden;
@@ -135,7 +128,6 @@ body {
 
 .chatMassengs .aiChat {
   text-align: right;
-  align-items: start;
   margin-bottom: 50px;
 }
 .chatMassengs .aiChat span {
@@ -159,7 +151,7 @@ body {
   aspect-ratio: 1;
   border-radius: 16px;
   background: var(--color-input);
-  border: 1px solid var(--color-border);
+  border: 2px solid var(--color-border);
   max-width: 250px;
   width: 250px;
   transition: all 0.3s ease;
@@ -208,6 +200,7 @@ body {
 .img_card .img_overlay .img_download_btn:hover {
   transform: scale(1.05);
   background: rgba(255, 255, 255, 0.4);
+  transition: all 0.3s ease;
 }
 
 .img_card:is(.loading, .error) :is(.result_img, .img_overlay) {
@@ -291,10 +284,15 @@ body {
   bottom: 0;
   width: 100vw;
   height: 24.5vh;
+  height: auto;
+  /* margin-top: auto; */
   display: flex;
+  flex-direction: column;
+  flex: 1;
   justify-content: center;
   align-items: center;
   margin-bottom: 35px;
+  overflow-y: hidden;
 }
 
 /* --------------------------------prompt container-style--------------------------------- */
@@ -304,8 +302,9 @@ body {
   max-width: 800px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  gap: 20px;
   background: #ffffff8a;
   backdrop-filter: blur(50px);
   border: 1px solid var(--color-border);
@@ -316,14 +315,13 @@ body {
 .prompt_form .prompt_container {
   width: 100%;
   position: relative;
-  margin-bottom: 20px;
 }
 
 .prompt_container .prompt_input {
   width: 100%;
   resize: vertical;
-  line-height: 1.6;
   font-size: 1rem;
+  line-height: 1.5;
   min-height: 100px;
   max-height: 200px;
   padding: 12px 20px;
@@ -376,24 +374,6 @@ body {
   justify-content: space-between;
 }
 
-.prompt_actions .select_wrapper {
-  position: relative;
-}
-
-.prompt_actions .select_wrapper::after {
-  content: "\f078";
-  font-family: "Font Awesome 6 Free";
-  font-weight: 900;
-  position: absolute;
-  right: 20px;
-  top: 50%;
-  font-size: 0.9rem;
-  padding-left: 7px;
-  pointer-events: none;
-  background: var(--color-input);
-  color: var(--color-placeholder);
-  transform: translateY(-50%);
-}
 .prompt_actions :where(.custom_select, .generate_btn) {
   cursor: pointer;
   font-size: 1rem;
@@ -417,6 +397,25 @@ body {
   box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
 }
 
+.prompt_actions .select_wrapper {
+  position: relative;
+}
+
+.prompt_actions .select_wrapper::after {
+  content: "\f078";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  font-size: 0.9rem;
+  padding-left: 7px;
+  pointer-events: none;
+  background: var(--color-input);
+  color: var(--color-placeholder);
+  transform: translateY(-50%);
+}
+
 .prompt_actions .generate_btn {
   width: 100%;
   height: 100%;
@@ -438,23 +437,23 @@ body {
 /* --------------------------------footer Copyriht--------------------------------- */
 
 .container .footer {
-  position: absolute;
+  user-select: none;
+  -webkit-user-select: none;
+  position: static;
   bottom: 0;
-  font-size: 0.8rem;
-  margin: 8px 0px;
+  width: 100%;
+  font-size: 0.72rem;
   font-weight: 500;
   color: var(--color-placeholder);
-
+  padding: 1rem;
+  padding-bottom: 0.5rem;
+  padding-top: 0.5rem;
+  text-align: center;
 }
-
+  
 .container .footer a{
-  font-size: 0.8rem;
-  margin: 8px 0px;
-  font-weight: 500;
   color: var(--color-accent);
   text-decoration: none;
-
-
 }
 
 /* ================================= Responsive latout ================================= */
@@ -464,7 +463,7 @@ body {
   /* --------------------------------header-style--------------------------------- */
 
     .container .header {
-      padding-top: 150px;
+      padding-top: 30vh;
       gap: 20px;
     }
     
@@ -490,12 +489,6 @@ body {
       font-weight: 500;
     }
     
-    .aiChat .gallery_grid  {
-      display: grid;
-      gap: 15px;
-      grid-template-columns: 1fr 1fr;
-    }
-    
     .gallery_grid .img_card {
       max-width: 200px;
       width: 200px;
@@ -518,14 +511,11 @@ body {
     
     .prompt_container .prompt_input {
       font-size: 0.9rem;
-      min-height: 100px;
       max-height: 100px;
     }
     
     .prompt_container .prompt_btn {
       font-size: 0.7rem;
-      width: 35px;
-      height: 35px;
       opacity: 1;
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
       transition: all 0.3s ease;
@@ -541,77 +531,33 @@ body {
     .container .prompt_actions {
       width: 100%;
       display: grid;
-      gap: 15px;
+      gap: 10px;
       grid-template-columns: 1fr 1fr 1fr;
     }
     
     
-    .prompt_actions .select_wrapper::after {
-      font-size: 0.8rem;
-    }
-
     .prompt_actions :where(.custom_select, .generate_btn) {
       font-size: 0.9rem;
       padding: 10px 18px;
     }
     
+    .prompt_actions .select_wrapper::after {
+      font-size: 0.79rem;
+    }
+
     .prompt_actions .generate_btn {
       font-weight: 500;
     }
     
   }
 
-@media screen and (max-width: 768px) {
+
+@media screen and (max-width: 500px) {
 
   /* --------------------------------header-style--------------------------------- */
 
     .container .header {
-      padding-top: 150px;
-      gap: 20px;
-    }
-    
-    .header .logo {
-      max-width: 39px;
-      transform: scale(1.15);
-    }
-    
-    .header .subtitle {
-      font-size: 1.09rem;
-    }
-
-
-    /* --------------------------------chatMassengs-style--------------------------------- */
-    
-    .chatMassengs .userChat p {
-      font-size: 0.85rem;
-    }
-    
-    .gallery_grid .img_card {
-      max-width: 180px;
-      width: 180px;
-    }
-
-    /* --------------------------------prompt container-style--------------------------------- */
-    
-    .prompt_container .prompt_btn {
-      font-size: 0.8rem;
-    }
-
-    /* --------------------------------prompt actions/Buttons-style--------------------------------- */
-
-    .prompt_actions :where(.custom_select, .generate_btn) {
-      font-size: 0.85rem;
-      font-weight: 500;
-    }
-    
-  }
-
-@media screen and (max-width: 457px) {
-
-  /* --------------------------------header-style--------------------------------- */
-
-    .container .header {
-      padding-top: 150px;
+      padding-top: 30vh;
       gap: 20px;
     }
     
@@ -631,24 +577,17 @@ body {
       font-size: 0.85rem;
     }
 
-    
-    .aiChat .gallery_grid  {
-      display: grid;
-      gap: 15px;
-      grid-template-columns: 1fr 1fr;
-    }
-    
     .gallery_grid .img_card {
-      max-width: 150px;
-      width: 150px;
+      max-width: 160px;
+      width: 160px;
     }
 
     /* --------------------------------prompt container-style--------------------------------- */
-    
+
     .main_content .prompt_form {
-      width: 100vw;
-      max-width: 100vw;
-      border-radius: 0px;
+      width: 96vw;
+      max-width: 96vw;
+      border-radius: 18px;
       padding: 15px 10px;
     }
 
@@ -657,10 +596,95 @@ body {
     }
 
     /* --------------------------------prompt actions/Buttons-style--------------------------------- */
+      
+    .container .prompt_actions {
+      width: 100%;
+      display: grid;
+      gap: 5px;
+      grid-template-columns: 1fr 1fr 1fr;
+    }
 
     .prompt_actions :where(.custom_select, .generate_btn) {
       font-size: 0.8rem;
       font-weight: 500;
     }
+
+  }
+
+
+@media screen and (max-width: 394px) {
+
+  /* --------------------------------header-style--------------------------------- */
+
+    .container .header {
+      gap: 15px;
+    }
     
+    .header .logo {
+      max-width: 35px;
+    }
+    
+    .header .subtitle {
+      font-size: 1rem;
+    }
+
+
+    /* --------------------------------chatMassengs-style--------------------------------- */
+    
+    .chatMassengs .userChat p {
+      font-size: 0.8rem;
+    }
+
+    .aiChat .gallery_grid  {
+      display: flex;
+      justify-content: start;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .gallery_grid .img_card {
+      max-width: 100%;
+      width: 100%;
+    }
+
+    .img_card .img_overlay .img_download_btn {
+      width: 40px;
+      height: 40px;
+      opacity: 1;
+    }
+    .img_card .img_overlay .img_download_btn i {
+      font-size: 0.8rem;
+    }
+
+    /* --------------------------------prompt container-style--------------------------------- */
+
+    .main_content .prompt_form {
+      width: 100vw;
+      max-width: 100vw;
+      border-radius: 18px;
+      padding: 15px 10px;
+    }
+
+    .prompt_container .prompt_input {
+      font-size: 0.85rem;
+    }
+
+    .prompt_container .prompt_btn {
+      font-size: 0.8rem;
+    }
+
+    /* --------------------------------prompt actions/Buttons-style--------------------------------- */
+      
+    .container .prompt_actions {
+      width: 100%;
+      display: grid;
+      gap: 5px;
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .prompt_actions :where(.custom_select, .generate_btn) {
+      font-size: 0.6rem;
+      font-weight: 500;
+    }
+
   }
