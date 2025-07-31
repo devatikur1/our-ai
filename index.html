@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our-Ai</title>
+    <!-- css-stylesheet -->
+    <link rel="stylesheet" href="style.css">
+    <!-- favicon -->
+    <link rel="shortcut icon" href="Logo.png" type="image/x-icon">
+    <!-- Linking Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+</head>
+<body oncontextmenu="return false;">
+    <div class="container">
+        <!-- header -->
+        <header class="header">
+            <img src="Logo.png" alt="logo" class="logo">
+            <p class="subtitle">Our AI crate any image</p>
+        </header>
+
+        <!-- chatMassengs -->
+        <article class="chatMassengs hide">
+            <!-- add with js -->
+        </article>
+
+        <!-- background_Gradient -->
+        <div class="background_Gradient">
+           <img src="background-gradient.png">
+        </div>
+
+        <!-- main_content -->
+        <main class="main_content">
+           <form action="#" class="prompt_form">
+                <!-- prompt container -->
+                <div class="prompt_container">
+                    <textarea class="prompt_input" placeholder=" Describe your imagination in detail...." required autofocus></textarea>
+                    <button type="button" class="prompt_btn">
+                        <i class="fa-solid fa-dice"></i>
+                    </button>
+                </div>
+                 <!-- prompt actions/Buttons -->
+                <div class="prompt_actions">
+                    <div class="select_wrapper">
+                        <select class="custom_select" id="model_select" required>
+                            <option value="" selected disabled>Select Model</option>
+                            <option value="flux">FLUX.1-dev</option>
+                            <option value="picsum">Picsum Random Image</option>
+                            <option value="AnonymousAiImage">Anonymous Ai Image</option>
+                            <option value="Random_Cat_Image">Random Cat Image</option>
+                            <option value="Random_Dog_Image">Random Dog Image</option>
+                        </select>
+                    </div>
+                    <div class="select_wrapper">
+                        <select class="custom_select" id="count_select" required>
+                            <option value="" selected disabled>Image Count</option>
+                            <option value="1">1 Image</option>
+                            <option value="2">2 image</option>
+                            <option value="3">3 image</option>
+                            <option value="4">4 image</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="generate_btn">
+                        <i class="fa-solid fa-wand-sparkles"></i>
+                        Generate
+                    </button>
+                </div>
+            </form>
+            
+        </main>
+
+        <!-- footer Copyriht -->
+        <footer class="footer">
+                © Copyriht by <a href="https://github.com/devatikur1" target="_blank">@devatikur1</a>
+        </footer>   
+    </div>
+    <!-- js-example-prompt-script -->
+    <script src="examplePromptsObfuscator.js"></script>
+    <!-- js-script -->
+    <script src="obfuscated.js"></script>
+</body>
+</html>
