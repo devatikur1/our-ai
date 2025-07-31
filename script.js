@@ -139,7 +139,11 @@ const fetchRandomCatImages = (count) => {
   for (let i = 0; i < count; i++) {
       try {
         let image = `https://cataas.com/cat?uninque=${Math.floor(Math.random() * 10000)}`;
+              if (!image) {
+        image.push("error")
+      } else {
         images.push(image);
+      }
       } catch (error) {
         images.push("error");
       }
@@ -156,7 +160,13 @@ const fetchRandomDogImages = async (count) => {
     try {
       const res = await fetch("https://dog.ceo/api/breeds/image/random");
       const data = await res.json();
-      images.push(data.message)
+      // console.log(data.message)
+      if (!(data.message)) {
+        images.push("error");
+      } else {
+        images.push(data.message);
+      }
+
     } catch (error) {
       // console.log(`${error} ⚠️`);
       images.push("error")
@@ -217,7 +227,11 @@ const fetchRandomPicsumImages = async (count) => {
   for (let i = 0; i < count; i++) {
     try {
       let image = await `https://picsum.photos/512/512?random=${Math.random()}`;
-      images.push(image);
+      if (!image) {
+        image.push("error")
+      } else {
+        images.push(image);
+      }
     } catch(error) {
       images.push("error");
     }
@@ -225,6 +239,32 @@ const fetchRandomPicsumImages = async (count) => {
 
   return images;
 };
+
+
+const fetchAnonymousAiImage = async (count, prompt, currentAspect= "1:1") => {
+  let images = [];
+  for (let i = 0; i < count; i++) {
+    try {
+      const seed = Date.now();
+      console.log(seed);
+      const imgURL = `https://api.a0.dev/assets/image?text=${encodeURIComponent(prompt)}&aspect=${currentAspect}&seed=${seed}.webp`;
+      console.log(imgURL);
+
+      const res = await fetch(imgURL);
+      if (!res) throw images.push("error");
+      const blobData = await res.blob();
+      const blob = URL.createObjectURL(blobData);
+      images.push(blob);
+      console.log(blob);
+      
+    } catch (error) {
+      images.push("error")
+    }
+    
+  }
+  return images;
+};
+
 
 
 // ======================= cat and dog extra js code =======================
@@ -314,7 +354,24 @@ const handleFormSubmit = async (e) => {
       });
       generatebtn.classList.remove("disabled");
     }, 2000);
+  } else if (selectedModel === "AnonymousAiImage") {
+    addAiMessage(imageCount);
+    setTimeout(async () => {
+      let images = [];
+      for (let i = 0; i < imageCount; i++) {
+        let image = await fetchAnonymousAiImage(imageCount, promptText);
+        images.push(image);
+      }
+      replaceImages(images);
+      chatMassengs.scrollTo({
+        top: chatMassengs.scrollHeight,
+        behavior: "smooth"
+      });
+      generatebtn.classList.remove("disabled");
+    }, 1000);
   }
+
+
   
   chatMassengs.scrollTop = chatMassengs.scrollHeight;
 
