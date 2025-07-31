@@ -298,6 +298,8 @@ body {
 /* --------------------------------prompt container-style--------------------------------- */
 
 .main_content .prompt_form {
+  user-select: none;
+  -webkit-user-select: none;
   width: 90vw;
   max-width: 800px;
   display: flex;
@@ -310,8 +312,6 @@ body {
   border: 1px solid var(--color-border);
   border-radius: 15px;
   padding: 20px 25px;
-  user-select: none;
-  -webkit-user-select: none;
 }
 
 .prompt_form .prompt_container {
