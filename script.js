@@ -64,7 +64,7 @@ const addAiMessage = (count) => {
   }
 
   // Add ai message with image and handle error
-  const replaceImages = (urls) => {
+  const replaceImages = (urls, model) => {
     const imageCards = document.querySelectorAll(".img_card.loading");
   
     imageCards.forEach((card, index) => {
@@ -97,7 +97,11 @@ const addAiMessage = (count) => {
       downloadBtn.addEventListener("click", () => {
         const imgURL = downloadBtn.getAttribute("data-url");
         const imgFormat = downloadBtn.getAttribute("data-format");
-        downloadImage(imgUrl, imgFormat)
+        if (model == "flux") {
+          window.open(imgURL, "_blank");
+        } else {
+          downloadImage(imgUrl, imgFormat)
+        }
       });
 
       const downloadImage = async (url, format) => {
@@ -176,7 +180,8 @@ const fetchRandomFluxImages = async (imageCount, prompt) => {
       method: 'POST',
       headers: {
         // 'x-rapidapi-key': 'c5642c1451msh4c0d46f26ef5789p14fd90jsn6b2f6fca0cc8', 
-        'x-rapidapi-key': 'be5bb09bc7mshe969a797fb59043p17e973jsn430f672eb2e3', 
+        // 'x-rapidapi-key': 'be5bb09bc7mshe969a797fb59043p17e973jsn430f672eb2e3', 
+        'x-rapidapi-key': '25912c02cemshdcf3bdf91a77e03p1c582cjsnf6ee9b868e2e',
         'x-rapidapi-host': 'ai-text-to-image-generator-flux-free-api.p.rapidapi.com',
         'Content-Type': 'application/json'
       },
@@ -306,7 +311,7 @@ const handleFormSubmit = async (e) => {
     addAiMessage(imageCount); // call user massage funtion with Loading
     setTimeout(async () => {
       const images = await fetchRandomCatImages(imageCount);
-      replaceImages(images);
+      replaceImages(images, selectedModel);
       chatMassengs.scrollTo({
         top: chatMassengs.scrollHeight,
         behavior: "smooth"
@@ -318,7 +323,7 @@ const handleFormSubmit = async (e) => {
     addAiMessage(imageCount); // call user massage funtion with Loading
     setTimeout(async () => {
       const images = await fetchRandomDogImages(imageCount);
-      replaceImages(images);
+      replaceImages(images, selectedModel);
       chatMassengs.scrollTo({
         top: chatMassengs.scrollHeight,
         behavior: "smooth"
@@ -331,7 +336,7 @@ const handleFormSubmit = async (e) => {
     addAiMessage(imageCount); // call user massage funtion with Loading
     setTimeout(async () => {
       const images = await fetchRandomFluxImages(imageCount, promptText);
-      replaceImages(images);
+      replaceImages(images, selectedModel);
       chatMassengs.scrollTo({
         top: chatMassengs.scrollHeight,
         behavior: "smooth"
@@ -344,7 +349,7 @@ const handleFormSubmit = async (e) => {
 
     setTimeout(async () => {
       const images = await fetchRandomPicsumImages(imageCount);
-      replaceImages(images);
+      replaceImages(images, selectedModel);
       chatMassengs.scrollTo({
         top: chatMassengs.scrollHeight,
         behavior: "smooth"
@@ -359,7 +364,7 @@ const handleFormSubmit = async (e) => {
       const image = await fetchAnonymousAiImage(imageCount ,promptText, "1:1");
       // console.log(image);
 
-      replaceImages(image);
+      replaceImages(image, selectedModel);
       chatMassengs.scrollTo({
         top: chatMassengs.scrollHeight,
         behavior: "smooth"
