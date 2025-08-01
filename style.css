@@ -169,14 +169,14 @@ body {
 .img_card .img_overlay {
   position: absolute;
   left: 0;
-  bottom: 0;
+  top: 0;
   right: 0;
   padding: 20px;
   display: flex;
   opacity: 0;
   pointer-events: none;
   justify-content: flex-end;
-  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+  background: linear-gradient(rgba(0, 0, 0, 0.8), transparent);
   transition: all 0.3s ease;
 }
 
