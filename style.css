@@ -186,6 +186,10 @@ body {
 }
 
 .img_card .img_overlay .img_download_btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
   height: 35px;
   width: 35px;
   color: #FFFFFF;
@@ -201,6 +205,10 @@ body {
   transform: scale(1.05);
   background: rgba(255, 255, 255, 0.4);
   transition: all 0.3s ease;
+}
+
+.img_card .img_overlay .img_download_btn i {
+    pointer-events: none;
 }
 
 .img_card:is(.loading, .error) :is(.result_img, .img_overlay) {
