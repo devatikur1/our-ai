@@ -444,13 +444,14 @@ body {
   position: static;
   bottom: 0;
   width: 100%;
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 500;
   color: var(--color-placeholder);
   padding: 1rem;
   padding-bottom: 0.5rem;
   padding-top: 0.5rem;
   text-align: center;
+  line-height: 1;
 }
   
 .container .footer a{
